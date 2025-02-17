@@ -1,5 +1,5 @@
 from ninja import Router #importo router
-from .schemas import AlunosSchema, AlunoProgessoSchema
+from .schemas import AlunosSchema, AlunoProgessoSchema, AulaRealizadaSchema
 from .models import Alunos, AulasConcluidas
 from ninja.errors import HttpError
 from typing import List
@@ -37,8 +37,7 @@ def progresso_aluno(request, email_aluno: str):
     total_aulas_proxima_faixa = calculate_lesson_to_upgrade(n)
     total_aulas_concluidas_faixa = AulasConcluidas.objects.filter(aluno=aluno, faixa_atual=aluno.faixa).count()
     aulas_faltantes = total_aulas_proxima_faixa - total_aulas_concluidas_faixa
-
-    print(aulas_faltantes)
+    
     return {
         "email": aluno.email,
         "nome": aluno.nome,
@@ -47,3 +46,21 @@ def progresso_aluno(request, email_aluno: str):
         "aulas_necessarios_para_proxima_faixa": aulas_faltantes,
         }
 
+@treino_router.post('/aula_realizada/', response={200: str})
+def aula_realizada(request, aula_realizada: AulaRealizadaSchema):
+    qtd = aula_realizada.dict()['qtd']
+    email_aluno = aula_realizada.dict()['email_aluno']
+
+    if qtd <= 0:
+        raise HttpError(400, "Error na quantidade de aulas")
+    
+    aluno = Alunos.objects.get(email=email_aluno)
+
+    for _ in range(0, qtd):
+        ac = AulasConcluidas(
+            aluno=aluno,
+            faixa_atual=aluno.faixa
+        )
+
+    ac.save()
+    return 200, f"aula marcada como realizada{aluno.nome}"
