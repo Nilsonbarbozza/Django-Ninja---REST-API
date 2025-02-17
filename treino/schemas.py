@@ -8,10 +8,10 @@ class AlunosSchema(ModelSchema):
         fields = ['nome', 'email', 'faixa', 'data_nascimento']
 
 class AlunoProgessoSchema(Schema):
-    email: str
     nome: str
+    email: str
     faixa: str 
-    total_aulas: str
+    total_aulas: int
     aulas_necessarios_para_proxima_faixa: int
 
 class AulaRealizadaSchema(Schema):
