@@ -84,13 +84,12 @@ def update_aluno(request, aluno_id: int, aluno_data: AlunosSchema):
     aluno.save()
     return aluno
 
-@treino_router.delete("/delete/{aluno_id}", response=AlunosSchema)
-def delet_aluno(request, aluno_id: int, aluno_data:AlunosSchema):
-    aluno = Alunos.objects.get(id=aluno_id)
-
-    print(aluno)
-    if aluno == aluno_data:
-        print('aluno excluido')
-
-    aluno.save()
-    return "excluido"
+@treino_router.delete("/delete/{aluno_id}", response={200: str, 500: str})
+def delet_aluno(request, aluno_id: int, email_aluno: str):
+    
+    try:
+        aluno = Alunos.objects.get(id=aluno_id, email=email_aluno)
+        aluno.delete()
+        return 200, "Usuario excluido com sucesso"
+    except Alunos.DoesNotExist:
+        raise HttpError("Usuario não encontrado")
