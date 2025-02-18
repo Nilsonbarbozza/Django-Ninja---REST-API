@@ -4,6 +4,7 @@ from .models import Alunos, AulasConcluidas
 from ninja.errors import HttpError
 from typing import List
 from .graduacao import calculate_lesson_to_upgrade, order_belt
+from datetime import date
 
 treino_router = Router() #Crio uma variavel para encurtar
 
@@ -23,6 +24,7 @@ def criar_aluno(request, aluno_schema: AlunosSchema): #A router acima vai chamar
                     data_nascimento=data_nascimento)
     aluno.save()
     return aluno
+
 @treino_router.get('alunos/', response=List[AlunosSchema])
 def listar_alunos(request):
     alunos = Alunos.objects.all()
@@ -64,3 +66,31 @@ def aula_realizada(request, aula_realizada: AulaRealizadaSchema):
 
     ac.save()
     return 200, f"aula marcada como realizada{aluno.nome}"
+
+@treino_router.put("/alunos/{aluno_id}", response=AlunosSchema)
+def update_aluno(request, aluno_id: int, aluno_data: AlunosSchema):
+    aluno = Alunos.objects.get(id=aluno_id)
+    
+    idade = date.today() - aluno.data_nascimento
+
+    if int(idade.days/365) < 18 and aluno_data.dict()['faixa'] in ('A', 'R', 'M', 'P'):
+        raise HttpError(400, "O aluno é menor de idade e não pode ser graduado para essa faixa.")
+
+    #exclude_unset=True
+    for attr, value in aluno_data.dict().items():
+        if value:
+            setattr(aluno, attr, value)
+    
+    aluno.save()
+    return aluno
+
+@treino_router.delete("/delete/{aluno_id}", response=AlunosSchema)
+def delet_aluno(request, aluno_id: int, aluno_data:AlunosSchema):
+    aluno = Alunos.objects.get(id=aluno_id)
+
+    print(aluno)
+    if aluno == aluno_data:
+        print('aluno excluido')
+
+    aluno.save()
+    return "excluido"

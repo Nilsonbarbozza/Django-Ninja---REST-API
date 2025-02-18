@@ -17,3 +17,4 @@ class AlunoProgessoSchema(Schema):
 class AulaRealizadaSchema(Schema):
     qtd: Optional[int] = 1
     email_aluno: str
+
