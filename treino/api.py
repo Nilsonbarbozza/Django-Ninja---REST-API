@@ -1,5 +1,5 @@
 from ninja import Router #importo router
-from .schemas import AlunosSchema, AlunoProgessoSchema, AulaRealizadaSchema
+from .schemas import AlunosSchema, AlunoProgessoSchema, AulaRealizadaSchema, AlunosSchema2
 from .models import Alunos, AulasConcluidas
 from ninja.errors import HttpError
 from typing import List
@@ -67,8 +67,8 @@ def aula_realizada(request, aula_realizada: AulaRealizadaSchema):
     ac.save()
     return 200, f"aula marcada como realizada{aluno.nome}"
 
-@treino_router.put("/alunos/{aluno_id}", response=AlunosSchema)
-def update_aluno(request, aluno_id: int, aluno_data: AlunosSchema):
+@treino_router.put("/alunos/{aluno_id}", response=AlunosSchema2)
+def update_aluno(request, aluno_id: int, aluno_data: AlunosSchema2):
     aluno = Alunos.objects.get(id=aluno_id)
     
     idade = date.today() - aluno.data_nascimento
