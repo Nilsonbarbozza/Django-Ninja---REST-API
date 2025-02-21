@@ -54,6 +54,6 @@ backend/
 
 📬**Contato: Caso tenha dúvidas, entre em contato!** 🚀
 
-**Email:** barbosa.nilsonneto@gmail.com
-**X:** @Nilsonbarbozza
-**Whatsapp:** (084) 9970-0898
+**Email:** barbosa.nilsonneto@gmail.com  
+**X:** @Nilsonbarbozza  
+**Whatsapp:** (084) 9970-0898  
