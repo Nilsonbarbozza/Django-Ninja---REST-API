@@ -18,9 +18,9 @@ Este repositório contém a implementação do backend do **Sistema de Gerenciam
 - 📌 **Consulta de Progresso**: Retorna a evolução do aluno dentro do sistema.
 - 📌 **Atualização de Dados**: Permite editar informações de um aluno.
 - 📌 **Deleção de Alunos**: Remove um aluno do sistema.
-
+---
 ![API](image.png)
-
+---
 ## 📂 Estrutura do Projeto
 ```
 backend/
@@ -40,11 +40,12 @@ backend/
 
 | Método | Endpoint | Descrição |
 |---------|----------|------------|
-| **POST** | `/api/alunos/` | Criar um novo aluno |
+| **POST** | `/api//` | Criar um novo aluno |
 | **GET** | `/api/alunos/` | Listar todos os alunos |
-| **GET** | `/api/alunos/{id}/` | Consultar um aluno específico |
+| **GET** | `/api/progresso_aluno/{id}/` | Consultar um aluno específico |
+| **POST** | `/api/aula_realizada/{id}/` | Marca aula como realizada |
 | **PUT** | `/api/alunos/{id}/` | Atualizar informações de um aluno |
-| **DELETE** | `/api/alunos/{id}/` | Remover um aluno |
+| **DELETE** | `/api/delete/{id}/` | Remover um aluno |
 
 ## ✅ Melhorias Futuras
 - Implementação de autenticação JWT.
